@@ -1,0 +1,91 @@
+<span class="budjet"> Budjet Calculation</span>
+<span class="container1">{{ this.service.TotalAmount }}</span>
+<div class="container2">
+  <form [formGroup]="currencyForm" class="header">
+    <input
+      class="inp1"
+      placeholder="$"
+      formControlName="amt"
+      autocomplete="off"
+    />
+    <input
+      class="inp2"
+      type="text"
+      placeholder="description"
+      autocomplete="off"
+      formControlName="dscptn"
+    />
+
+    <button
+      *ngIf="buttn"
+      class="btn"
+      type="button"
+      (click)="add()"
+      [disabled]="currencyForm.invalid"
+    >
+      <b>Add</b>
+    </button>
+    <button *ngIf="!buttn" class="btn" type="button" (click)="save()">
+      <b>Save</b>
+    </button>
+  </form>
+</div>
+<span style="color: red">{{ wrongInput }}</span>
+<div class="row1">
+  <span style="color: green; font-size: 25px"><b>Income</b></span>
+  <span style="color: red; font-size: 25px"><b>Expenses</b></span>
+</div>
+<div class="row1">
+  <div>
+    <div class="card1">
+      <div *ngFor="let x of cardOne; index as i">
+        <span class="cd1"
+          ><b>{{ x.dscptn }}</b>
+          <b>{{ x.amt }}</b>
+          <span>
+            <span class="fav1">
+              <i
+                class="fa fa-edit"
+                style="font-size: px"
+                (click)="edit(i, 'card1')"
+              ></i
+            ></span>
+            <span class="fav2">
+              <i
+                class="fa fa-remove"
+                style="font-size: 15px"
+                (click)="delete(i, 'card1')"
+              ></i
+            ></span>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="card2">
+      <div *ngFor="let x of cardTwo; index as i">
+        <span class="cd1"
+          ><b>{{ x.dscptn }}</b>
+          <b>{{ x.amt }}</b>
+          <span>
+            <span class="fav1">
+              <i
+                class="fa fa-edit"
+                style="font-size: 15px"
+                (click)="edit(i, 'card2')"
+              ></i
+            ></span>
+            <span class="fav2">
+              <i
+                class="fa fa-remove"
+                style="font-size: 20px"
+                (click)="delete(i, 'card2')"
+              ></i
+            ></span>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
