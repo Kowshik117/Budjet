@@ -45,23 +45,22 @@ height: 200px;
 }
 
 .inp2{
-    width: 50%;
+    width: 25%;
     height:30px;
     border-style: solid;
-    border-color: red;
+    border-color: rgb(214, 237, 178);
 
 }
 .inp2:hover{
-    border-color:rgb(193, 102, 102);
+    border-color: rgb(149, 239, 13);
 }
 .btn{
-    color: blue;
-   border-width: 2px;
+    color: rgb(255, 0, 0);
    border-radius: 10px;
-   background-color:gainsboro
+   background-color:rgb(216, 223, 193)
 }
 .btn:hover{
-    background-color: rgb(20, 195, 72);
+    background-color: rgb(12, 244, 82);
 }
 .row1{
     display: flex;

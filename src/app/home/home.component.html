@@ -1,4 +1,8 @@
-<span class="budjet"> Budjet Calculation</span>
+<span *ngIf="!dispaly"><form > <input type="text" placeholder="Enter name" name="name" [(ngModel)]="ipt"> <button (click)="login()" >ok</button></form></span> 
+<div *ngIf="dispaly">
+  <span style="text-align: center; background-color: rgba(247, 247, 247, 0.797);color: green;font-size: 20px;margin-left: 600px;"> <b>{{ipt | titlecase}}</b></span> 
+   <span class="budjet" > Budjet Calculation</span>
+  
 <span class="container1">{{ this.service.TotalAmount }}</span>
 <div class="container2">
   <form [formGroup]="currencyForm" class="header">
@@ -15,6 +19,13 @@
       autocomplete="off"
       formControlName="dscptn"
     />
+    <input
+    class="inp2"
+    type="text"
+    placeholder="name"
+    autocomplete="off"
+    formControlName="name"
+  />
 
     <button
       *ngIf="buttn"
@@ -23,12 +34,13 @@
       (click)="add()"
       [disabled]="currencyForm.invalid"
     >
-      <b>Add</b>
+      Add
     </button>
     <button *ngIf="!buttn" class="btn" type="button" (click)="save()">
-      <b>Save</b>
+      Save
     </button>
   </form>
+  <button style="margin-left: 600px;background-color: rgb(30, 19, 5); color: red; border: 2px; border-radius: 5px;height: 30px;margin-top: 20px;" (click)="back()"><b>Back</b></button>
 </div>
 <span style="color: red">{{ wrongInput }}</span>
 <div class="row1">
@@ -42,6 +54,7 @@
         <span class="cd1"
           ><b>{{ x.dscptn }}</b>
           <b>{{ x.amt }}</b>
+          <b>{{x.name}}</b>
           <span>
             <span class="fav1">
               <i
@@ -68,6 +81,7 @@
         <span class="cd1"
           ><b>{{ x.dscptn }}</b>
           <b>{{ x.amt }}</b>
+          <b>{{x.name}}</b>
           <span>
             <span class="fav1">
               <i
@@ -88,4 +102,6 @@
       </div>
     </div>
   </div>
+</div>
+  
 </div>
