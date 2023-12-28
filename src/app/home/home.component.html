@@ -40,7 +40,8 @@
       Save
     </button>
   </form>
-  <button style="margin-left: 600px;background-color: rgb(30, 19, 5); color: red; border: 2px; border-radius: 5px;height: 30px;margin-top: 20px;" (click)="back()"><b>Back</b></button>
+  <button style="margin-left: 550px;background-color: rgb(30, 19, 5); color: red; border: 2px; border-radius: 5px;height: 30px;margin-top: 20px;" (click)="back()"><b>Back</b></button>
+  <button style="margin-left: 100px;background-color: rgb(238, 235, 230); color: rgb(66, 14, 237); border: 2px; border-radius: 5px;height: 30px;margin-top: 20px;" (click)="table()"><b>Detail Data</b></button>
 </div>
 <span style="color: red">{{ wrongInput }}</span>
 <div class="row1">
@@ -103,5 +104,32 @@
     </div>
   </div>
 </div>
+<!-- table -->
+<div class="table1" *ngIf="this.displayTable">
+  <table>
+  <thead>
+    <tr>
+
+      
+      <th>Users</th>
+      <th>Description</th>
+      <th>Income</th>
+      <th>Expenses</th>
+      <th>Balance Amount</th>
+
+    </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let e of cardOne">
+        <td>{{e.name}}</td>
+        <td>{{e.dscptn}}</td>
+        <td>{{e.amt}}</td>
+        <td>{{e.amt}}</td>
+        <td>TotalAmount</td>
+
+      </tr>
+  </tbody>
+  </table>
+</div> 
   
 </div>

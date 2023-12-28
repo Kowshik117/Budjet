@@ -27,7 +27,7 @@ text-align: center;
 display: flex;
 justify-content: center;
 align-items: center;
-height: 200px;
+height: 100px;
 }
 .header{
     margin-top: 20px;
@@ -116,4 +116,20 @@ margin-right: 10px;
    color: red;
      
     }
+    table {
+        width: 100%;
+        text-align: center;
+      }
+      
+      th {
+        height: 70px;
+      }
+      tbody{
+        background-color: rgb(188, 215, 239);
+      }
+  .table1{
+    align-items: center;
+    margin: 20px;
+  }
+
   

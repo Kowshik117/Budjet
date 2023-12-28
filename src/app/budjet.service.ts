@@ -5,12 +5,15 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class BudjetService {
- 
+  public card1: any[] = [];
+  public card2: any[] = [];
+   public card :any[] =[];
 
-  card1: any[] = [];
-  card2: any[] = [];
+
+   
   TotalAmount: number = 0;
   constructor( private http: HttpClient) {}
+ 
   totalamt() {
     let total = 0;
 
@@ -22,5 +25,8 @@ export class BudjetService {
     });
     this.TotalAmount = total;
   }
-  
+  mergeCard(){
+    this.card=this.card1.concat(this.card2);
+    console.log(this.card);
+  }
 }

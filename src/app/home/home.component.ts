@@ -1,6 +1,7 @@
 import { Component, ViewChild, ViewChildren } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { BudjetService } from '../budjet.service';
+import { elementAt } from 'rxjs';
 
 
 @Component({
@@ -11,6 +12,9 @@ import { BudjetService } from '../budjet.service';
 export class HomeComponent {
   // public lcard1: any;
   // public lcard2: any;
+  public arr=[1,2,3,4,5,5,3,2,4,2,1,6]
+public tableData: any;
+  public displayTable: boolean=false;
 public users:any=["james","ram"];
   public ipt: any;
 public dispaly: boolean=false;
@@ -31,12 +35,9 @@ public dispaly: boolean=false;
     amt: new FormControl('', [Validators.required]),
     dscptn: new FormControl('', Validators.required),
     name: new FormControl('', Validators.required),
-
-    // user: new FormControl('username', Validators.required)
   });
 
   ngOnInit(): void{
-    // this.service.getCardData() 
     }
   add() {
     let amount = Number(this.currencyForm.controls['amt'].value);
@@ -47,27 +48,15 @@ public dispaly: boolean=false;
       this.service.card1.push(this.currencyForm.value);
       this.cardOne = this.service.card1;
       console.log(this.cardOne);
-      // this.lcard1=this.currencyForm.value;
     } else if (amount < 0) {
       this.service.card2.push(this.currencyForm.value);
       this.cardTwo = this.service.card2;
       console.log(this.cardTwo);
-
-      // this.lcard2=this.currencyForm.value;
-
     } else {
       this.wrongInput = 'Wrong Input';
     }
-  //   let peyLoad =
-  //   {"card1":this.lcard1,
-  //   "card2":this.lcard2,
-  //   "user":this.ipt
-  // }
-  //   this.service.postCardData(peyLoad).subscribe(data=>{
-  //     console.log("new data",data);
-  //     this.service.getCardData()  
-  //   })
-
+    this.service.mergeCard();
+    this.tableData=this.service.card;
     this.currencyForm.reset();
     this.service.totalamt();
   }
@@ -79,6 +68,8 @@ public dispaly: boolean=false;
       this.cardTwo.splice(index, 1);
       this.service.card2 = this.cardTwo;
     }
+ this.tableData=this.service.mergeCard();
+
     this.service.totalamt();
   }
   edit(index: any, card: any) {
@@ -133,21 +124,69 @@ public dispaly: boolean=false;
     }
     this.buttn = !this.buttn;
     this.service.totalamt();
-    this.currencyForm.reset();
+    this.service.mergeCard();
+    this.tableData=this.service.card;
   }
   login(){
 this.dispaly=!this.dispaly;
 
 if(this.users.indexOf(this.ipt)===-1){
   this.users.push(this.ipt);
-  console.log(this.users);
+  // console.log(this.users);
 }
-console.log(this.users)
+// console.log(this.users)
 
   }
   back(){
     this.dispaly=!this.dispaly
   }
-  
+  table(){
+    this.displayTable=!this.displayTable;
+    this.service.mergeCard();
+    this.tableData=this.service.card;
+    this.filterAndCombineObjects();
   }
+  public filterAndCombineObjects(): any[] {
+    const filteredData: any[] = [];
+    const userTotals: any = {};
+    let positiveAmtTotal = 0;
+    let negativeAmtTotal = 0;
+
+
+    for (const userName of this.users) {
+      const userObjects = this.tableData.filter((obj:any ) => obj.name === userName);
+
+      if (userObjects.length > 0) {
+        const userTotal: any = { positive: 0, negative: 0 };
+        const combinedObject = userObjects.reduce((acc : any, curr :any) => {
+         
+          const amount = Number(curr.amt);
+
+          if (amount > 0) {
+            positiveAmtTotal += amount;
+          } else if (amount < 0) {
+            negativeAmtTotal += amount;
+          }
+
+
+          
+acc.amt = (acc.amt || 0) + amount;
+          return acc;
+        }, {});
+
+        combinedObject.name = userName;
+        filteredData.push(combinedObject);
+        userTotals[userName] = userTotal;
+      }
+    }
+    console.log('Individual User Totals:', userTotals);
+    console.log('Positive Amount Total:', positiveAmtTotal);
+    console.log('Negative Amount Total:', negativeAmtTotal);
+    return filteredData;
+  }
+}
+   
+  
+
+
 
