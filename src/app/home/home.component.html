@@ -121,7 +121,7 @@
   </thead>
   <tbody>
       <tr *ngFor="let user of userTotals | keyvalue">
-       <td>{{ user.key }}</td>
+       <td>{{ user.value.name }}</td>
       <td>{{ user.value.positiveAmt }}</td>
       <td>{{ user.value.negativeAmt }}</td>
       <td>{{ user.value.amt }}</td> 
