@@ -112,7 +112,7 @@
 
       
       <th>Users</th>
-      <th>Description</th>
+    
       <th>Income</th>
       <th>Expenses</th>
       <th>Balance Amount</th>
@@ -120,12 +120,18 @@
     </tr>
   </thead>
   <tbody>
-      <tr *ngFor="let e of cardOne">
-        <td>{{e.name}}</td>
-        <td>{{e.dscptn}}</td>
-        <td>{{e.amt}}</td>
-        <td>{{e.amt}}</td>
-        <td>TotalAmount</td>
+      <tr *ngFor="let user of userTotals | keyvalue">
+       <td>{{ user.key }}</td>
+      <td>{{ user.value.positiveAmt }}</td>
+      <td>{{ user.value.negativeAmt }}</td>
+      <td>{{ user.value.amt }}</td> 
+
+  
+
+
+    
+
+       
 
       </tr>
   </tbody>

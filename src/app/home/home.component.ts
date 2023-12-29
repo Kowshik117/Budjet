@@ -2,6 +2,9 @@ import { Component, ViewChild, ViewChildren } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { BudjetService } from '../budjet.service';
 import { elementAt } from 'rxjs';
+import { group } from '@angular/animations';
+import { HttpClient } from '@angular/common/http';
+import { UserTotal } from 'user';
 
 
 @Component({
@@ -10,9 +13,11 @@ import { elementAt } from 'rxjs';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
+[x: string]: any;
   // public lcard1: any;
   // public lcard2: any;
-  public arr=[1,2,3,4,5,5,3,2,4,2,1,6]
+ 
+  
 public tableData: any;
   public displayTable: boolean=false;
 public users:any=["james","ram"];
@@ -30,15 +35,15 @@ public dispaly: boolean=false;
 
   public wrongInput: any;
 
-  constructor(private fb: FormBuilder, public service: BudjetService) {}
+  constructor(private fb: FormBuilder, public service: BudjetService, private http: HttpClient) {}
   public currencyForm = this.fb.group({
     amt: new FormControl('', [Validators.required]),
     dscptn: new FormControl('', Validators.required),
     name: new FormControl('', Validators.required),
+  
   });
 
-  ngOnInit(): void{
-    }
+ 
   add() {
     let amount = Number(this.currencyForm.controls['amt'].value);
     
@@ -117,7 +122,6 @@ public dispaly: boolean=false;
           element.amt = this.currencyForm.controls['amt'].value;
           element.dscptn = this.currencyForm.controls['dscptn'].value;
           element.name = this.currencyForm.controls['name'].value;
-
           console.log(element);
         }
       });
@@ -132,9 +136,7 @@ this.dispaly=!this.dispaly;
 
 if(this.users.indexOf(this.ipt)===-1){
   this.users.push(this.ipt);
-  // console.log(this.users);
 }
-// console.log(this.users)
 
   }
   back(){
@@ -146,44 +148,59 @@ if(this.users.indexOf(this.ipt)===-1){
     this.tableData=this.service.card;
     this.filterAndCombineObjects();
   }
+ 
+  public userTotals: {[key: string]: UserTotal} = {};
+
   public filterAndCombineObjects(): any[] {
     const filteredData: any[] = [];
-    const userTotals: any = {};
+
     let positiveAmtTotal = 0;
     let negativeAmtTotal = 0;
 
-
     for (const userName of this.users) {
+      console.log(userName);
+  
       const userObjects = this.tableData.filter((obj:any ) => obj.name === userName);
+      console.log(userObjects.length)
 
       if (userObjects.length > 0) {
-        const userTotal: any = { positive: 0, negative: 0 };
         const combinedObject = userObjects.reduce((acc : any, curr :any) => {
-         
           const amount = Number(curr.amt);
-
+          const userTotal: any = { positive: 0, negative: 0 };
           if (amount > 0) {
             positiveAmtTotal += amount;
-          } else if (amount < 0) {
-            negativeAmtTotal += amount;
+            userTotal.positive=positiveAmtTotal;
           }
+          else if (amount < 0) {
+            negativeAmtTotal += amount;
+            userTotal.negative=negativeAmtTotal;
+          }
+    
 
-
-          
 acc.amt = (acc.amt || 0) + amount;
+acc.negativeAmt=  negativeAmtTotal;
+acc.positivetiveAmt=  positiveAmtTotal;
+
+
+
           return acc;
         }, {});
-
+        console.log(JSON.stringify(combinedObject))
         combinedObject.name = userName;
         filteredData.push(combinedObject);
-        userTotals[userName] = userTotal;
+       this['userTotals'][userName] = combinedObject;
+        
       }
     }
-    console.log('Individual User Totals:', userTotals);
+    console.log('Individual User Totals:', this['userTotals']);
     console.log('Positive Amount Total:', positiveAmtTotal);
     console.log('Negative Amount Total:', negativeAmtTotal);
     return filteredData;
   }
+  // public userTs= {
+  //   kowshik: { amt: 23, negativeAmt: -67, positiveAmt: 90, name: 'kowshik' },
+  //   sanjay: { amt: 822, negativeAmt: -134, positiveAmt: 979, name: 'sanjay' }
+  // };
 }
    
   
